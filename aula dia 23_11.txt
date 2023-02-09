@@ -1,0 +1,207 @@
+#include <iostream>
+#include <stdio.h>
+#include <string>
+#include <cstring>
+//#include <Windows.h>
+using namespace std;
+
+struct wordsNumber
+{
+    char word [20];
+    //string word;
+    int quant = 1;
+};
+
+bool copyFromText(char text[])
+{
+
+    FILE *archive;
+    archive = fopen("arquivobackup.txt", "rt");
+
+    if (archive == NULL)
+    {
+        cout << "Error in the opening of the archive\n";
+        return 1;
+    }
+
+    fread(text, sizeof(char), 5000, archive);
+
+    return 0;
+
+    fclose(archive);
+    cout << text;
+}
+
+void swapChars(char text[])
+{
+
+    for (int i = 0; text[i] != '\0'; i++)
+    {
+        if (text[i] == ',' || text[i] == '.' || text[i] == '(' || text[i] == ')')
+        {
+            text[i] = ' ';
+        }
+    }
+}
+
+void deleteSpaces(char text[], char cleanText[])
+{
+
+    int i = 0;
+    int iCT = 0;
+
+    while (text[i] != '\0')
+    {
+        if (text[i] != ' ')
+        {
+            cleanText[iCT] = text[i];
+        }
+        else
+        {
+            cleanText[iCT] = ' ';
+
+            while (text[i + 1] == ' ')
+            {
+                i++;
+            }
+        }
+        iCT++;
+        i++;
+    }
+}
+
+int wordsCounter(char cleanText[])
+{
+
+    int cont = 1, i = 0;
+
+    while (cleanText[i] != '\0')
+    {
+
+        if (cleanText[i] == ' ')
+        {
+            cont++;
+        }
+        i++;
+    }
+    return cont;
+}
+
+void separaPalavra(char cleanText[], string palavras[])
+{
+    int i = 0, j = 0;
+    do
+    {
+        if (cleanText[i] != ' ')
+        {
+            palavras[j] += cleanText[i];
+        }
+        else
+        {
+            j++;
+        }
+        i++;
+    } while (cleanText[i] != '\0');
+}
+
+/*
+int contaQtdPalavra(string palavra[], wordsNumber p[], int n)
+{
+    int cont = 0;
+    wordsNumber aux[n];
+    //tiraRepetida(palavra);
+    for (int i = 0; i < n; i++)
+    {
+        aux[i].word = palavra[i];
+        for (int j = 0; j < n; j++)
+        {
+            if (aux[i].word == palavra[j])
+            {
+                aux[i].quant++;
+            }
+        }
+        cout << " a palavra ||" << aux[i].word << "|| Apareceu " << aux[i].quant << " vezes\n ";
+    }
+    //p[0].word = aux[0].word;
+
+    for (int i = 0; i < n; i++)
+    {
+        for (int j = 0; j < n; j++)
+        {
+
+        }
+    }
+
+    return n;
+}*/
+
+wordsNumber* showStats(string separatedWords[], wordsNumber pointer[], int wordNumber, int &n)
+{
+
+    char aux[20];
+    int ret = -1;
+    //int j =0;
+
+    for (int i = 0; i < wordNumber; i++)
+    {
+
+        int x = -1;
+
+        strcpy(aux, separatedWords[i].c_str());
+
+        for (int k = 0; k < n-1; k++)
+        {
+
+            ret = strcmp(aux, pointer[k].word);
+
+            if (ret == 0)
+            {
+
+                x = k;
+                break;
+            }
+        }
+
+        if (x == -1)
+        {
+            n++;
+            pointer = (wordsNumber *)realloc(pointer, sizeof(wordsNumber) * n);
+           // pointer[n-1].word = (char*)calloc(20,1);
+            strcpy(pointer[n - 1].word, separatedWords[i].c_str());
+            pointer[n - 1].quant = 1;
+        } 
+        else
+        {
+            pointer[x].quant++;
+        }
+    }
+    return pointer;
+    
+}
+int main()
+{
+
+    char text[5000], cleanText[5000];
+    bool ret = false;
+    wordsNumber *pointer = NULL;
+    string palavras[644], aux [644];
+    int n = 1;
+    pointer = (wordsNumber* )malloc(sizeof(wordsNumber) * n);
+    //pointer[n-1].word = (char*)calloc(20,1);
+    //SetConsoleOutputCP(65001);
+   
+    ret = copyFromText(text);
+
+    swapChars(text);
+    deleteSpaces(text, cleanText);
+     int wordNumber = wordsCounter(cleanText);
+     separaPalavra(cleanText, palavras);
+    //showStats (palavras, p, *n);
+    //pointer = showStats(separaPalavra, pointer, wordNumber, n);
+    pointer = showStats(palavras,pointer,wordNumber,n);
+
+    for (int i = 0; i < n-1; i++)
+    {
+        cout << pointer[i].word << " Quantidade: " << pointer[i].quant << endl;
+    }
+}
