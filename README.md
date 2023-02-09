@@ -1,4 +1,4 @@
-Lista de alguns trabalhos e exercicios que fiz nos 3 primeiros semestres da faculdade.
+Lista de alguns trabalhos e exercicios que fiz nos 3 primeiros semestres da faculdade. Como estavá muito desorganizada essas coisas, decidi trazer tudo para cá.
 
 Estou tentando achar mais alguns que ainda estão perdidos.  Ainda falta encortrar as do semestre 4, mas como foi muito mais teorioco acredido que não tenha tanto. Também alguns trabalhos que entreguei e algumas coisas que ficaram perdidas no pc.
 
